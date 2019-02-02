@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <title>Runtime Conf Tool</title>
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+  <style>
+    .button { height: 2.2rem; line-height: 2.2rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="column">
+        <h3><a href="<%= @options[:path] %>">Runtime Conf Tool</a></h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        Set log level to: <br/>
+        <%= RuntimeConfTool::LOGGER_SEVERITY.map{ |level| '<a class="button" href="?log=' + level + '">' + level + '</a>' }.join(' ') %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column column-50">
+        <a class="button" href="?restart">Restart server</a>
+        <a class="button" href="?cache">Toggle cache (*)</a>
+        <a class="button" href="?cache_clear=1">Clear cache (*)</a>
+      </div>
+      <div class="column">
+        Catch errors (404, 500, etc.):<br/>
+        <a class="button" href="?catch_errors=1">ON (*)</a>
+        <a class="button button-outline" href="?catch_errors=0">OFF (*)</a>
+      </div>
+      <div class="column">
+        Verbose query logs:<br/>
+        <a class="button" href="?verbose_query_logs=1">ON (*)</a>
+        <a class="button button-outline" href="?verbose_query_logs=0">OFF (*)</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <em>(*) restarts the server</em><br/>
+        <pre><code><% if @actions && @actions.any? %>
+<%= @actions.join("\n") %>
+        <% else %>
+Rails.logger.level: <b><%= RuntimeConfTool::LOGGER_SEVERITY[Rails.logger.level] %></b>
+Rails.application.config.active_record.verbose_query_logs: <b><%= Rails.application.config.active_record.verbose_query_logs %></b>
+Rails.application.config.consider_all_requests_local: <b><%= Rails.application.config.consider_all_requests_local %></b>
+
+Rails.cache: <b><%= Rails.application.config.cache_store == :null_store ? '-' : Rails.cache.inspect %></b>
+Rails.application.config.cache_store: <b><%= Rails.application.config.cache_store %></b>
+Rails.application.config.action_controller.perform_caching: <b><%= Rails.application.config.action_controller.perform_caching %></b>
+        <% end %></code></pre>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
