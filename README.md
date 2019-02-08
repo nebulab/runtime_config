@@ -2,7 +2,7 @@
 
 A middleware to change configuration parameters at runtime for Rails 5.
 
-**NOTE**: this is an alpha version, this gem is not yet released on rubygems, major changes could happen
+**NOTE**: this is an alpha version, this gem is not yet released on rubygems, major changes could happen.
 
 ## Installation and Usage
 
@@ -24,6 +24,10 @@ A middleware to change configuration parameters at runtime for Rails 5.
 - Toggle cache
 - Clear cache
 - Restart server
+
+## Preview
+
+![screenshot](screenshot.png)
 
 ## Do you like it? Star it!
 
