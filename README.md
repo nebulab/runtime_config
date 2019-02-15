@@ -1,8 +1,6 @@
-# Runtime Conf Tool
+# Runtime Conf Tool [![Gem Version](https://badge.fury.io/rb/runtime_conf_tool.svg)](https://badge.fury.io/rb/runtime_conf_tool)
 
 A middleware to change configuration parameters at runtime for Rails 5.
-
-**NOTE**: this is an alpha version, this gem is not yet released on rubygems, major changes could happen.
 
 ## Installation and Usage
 
@@ -19,6 +17,7 @@ A middleware to change configuration parameters at runtime for Rails 5.
 ## Features
 
 - Change log level
+- Filter log lines using a RegExp
 - Enable/disable catching errors
 - Eneble/disable verbose query logs
 - Toggle cache

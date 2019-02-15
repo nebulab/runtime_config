@@ -5,6 +5,9 @@
   <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
   <style>
     .button { height: 2.2rem; line-height: 2.2rem; }
+    .mono { background: #ddd; font-family: monospace; }
+    .row { align-items: flex-end; }
+    #form_filter_logs { margin-bottom: 0; }
   </style>
 </head>
 <body>
@@ -35,6 +38,17 @@
         Verbose query logs:<br/>
         <a class="button" href="?verbose_query_logs=1">ON (*)</a>
         <a class="button button-outline" href="?verbose_query_logs=0">OFF (*)</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column column-80">
+        Filter logs (using a Regexp, ex. <span class="mono">app/views</span>) (*): <br/>
+        <form method="get" id="form_filter_logs">
+          <input type="text" name="filter_logs" />
+        </form>
+      </div>
+      <div class="column">
+        <input type="button" value="Filter" onclick="Javascript: document.querySelector('#form_filter_logs').submit()" />
       </div>
     </div>
     <div class="row">

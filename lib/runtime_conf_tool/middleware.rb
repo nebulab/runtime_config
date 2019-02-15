@@ -3,19 +3,28 @@
 module RuntimeConfTool
   LOGGER_SEVERITY = %w[debug info warn error fatal unknown].freeze # https://github.com/ruby/ruby/blob/trunk/lib/logger.rb
 
-  # The middleware
   class Middleware
     def initialize(app, options = {})
       @app = app
       @params = {
-        catch_errors:       ConfParam.new(:catch_errors, Rails.configuration, :consider_all_requests_local),
-        assets_logs:        ConfParam.new(:assets_logs, Rails.configuration.assets, :quiet),
+        assets_logs: ConfParam.new(:assets_logs, Rails.configuration.assets, :quiet),
+        catch_errors: ConfParam.new(:catch_errors, Rails.configuration, :consider_all_requests_local),
+        filter_logs: ConfParam.new(:filter_logs, nil, :filter_logs, ->(value) {
+          regexp = Regexp.new value, Regexp::IGNORECASE
+          Rails.logger = ActiveSupport::Logger.new STDOUT
+          Rails.logger.formatter = proc do |_severity, _time, _progname, msg|
+            "#{msg}\n" if msg =~ regexp
+          end
+        }),
         verbose_query_logs: ConfParam.new(:verbose_query_logs, Rails.configuration.active_record, :verbose_query_logs),
       }
       @options = (options || {}).symbolize_keys
       @options[:path] ||= '/dev'
+
       Rails.configuration.after_initialize do
-        params_load.each { |k, v| @params[k.to_sym].set v }
+        params_load.each do |k, v|
+          @params[k.to_sym].set v
+        end
         params_reset
       end
     end
@@ -24,11 +33,8 @@ module RuntimeConfTool
       req = Rack::Request.new(env)
       return @app.call(env) unless req.path == @options[:path]
 
+      restart = false
       @actions = []
-      if req.params.include? 'restart'
-        restart_server
-        @actions.push 'Restarting server'
-      end
       if LOGGER_SEVERITY.include?((req.params['log'] || '').downcase)
         level = "Logger::#{req.params['log'].upcase}"
         Rails.logger.level = level.constantize
@@ -43,21 +49,31 @@ module RuntimeConfTool
       #   # Rails.configuration.assets.quiet = false
       #   params_save(@params[:assets_logs], req.params['assets_logs'] == '1')
       #   @actions.push "assets_logs: #{req.params['assets_logs'] == '1'}"
-      #   restart_server
+      #   restart = true
       # end
       if req.params.include? 'catch_errors'
         params_save(@params[:catch_errors], req.params['catch_errors'] == '1')
         @actions.push "catch_errors: #{req.params['catch_errors'] == '1'}"
-        restart_server
+        restart = true
       end
       if req.params.include? 'cache_clear'
         Rails.cache.clear
         @actions.push "cache_clear: #{req.params['cache_clear'] == '1'}"
       end
+      if req.params.include? 'filter_logs'
+        params_save(@params[:filter_logs], req.params['filter_logs'].strip)
+        @actions.push "filter logs: #{req.params['filter_logs'].strip}"
+        restart = true
+      end
       if req.params.include? 'verbose_query_logs'
         params_save(@params[:verbose_query_logs], req.params['verbose_query_logs'] == '1')
         @actions.push "verbose_query_logs: #{req.params['verbose_query_logs'] == '1'}"
+        restart = true
+      end
+      restart = true if req.params.include? 'restart'
+      if restart
         restart_server
+        @actions.push 'Restarting server'
       end
 
       [
