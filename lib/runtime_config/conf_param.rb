@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RuntimeConfTool
+module RuntimeConfig
   class ConfParam
     attr_reader :exec, :conf, :opt, :parent
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RuntimeConfTool
+module RuntimeConfig
   LOGGER_SEVERITY = %w[debug info warn error fatal unknown].freeze # https://github.com/ruby/ruby/blob/trunk/lib/logger.rb
 
   class Middleware
@@ -59,6 +59,7 @@ module RuntimeConfTool
       if req.params.include? 'cache_clear'
         Rails.cache.clear
         @actions.push "cache_clear: #{req.params['cache_clear'] == '1'}"
+        restart = true
       end
       if req.params.include? 'filter_logs'
         params_save(@params[:filter_logs], req.params['filter_logs'].strip)
@@ -90,19 +91,19 @@ module RuntimeConfTool
     private
 
     def params_load
-      JSON.parse Rails.root.join('tmp', '_runtime_conf_tool.txt').read
+      JSON.parse Rails.root.join('tmp', '_runtime_config.txt').read
     rescue StandardError
       {}
     end
 
     def params_reset
-      Rails.root.join('tmp', '_runtime_conf_tool.txt').unlink
+      Rails.root.join('tmp', '_runtime_config.txt').unlink
     rescue StandardError
       nil
     end
 
     def params_save(param, value)
-      Rails.root.join('tmp', '_runtime_conf_tool.txt').open('w') do |f|
+      Rails.root.join('tmp', '_runtime_config.txt').open('w') do |f|
         f.puts({ param.opt => value }.to_json)
       end
     end

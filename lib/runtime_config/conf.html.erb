@@ -20,7 +20,7 @@
     <div class="row">
       <div class="column">
         Set log level to: <br/>
-        <%= RuntimeConfTool::LOGGER_SEVERITY.map{ |level| '<a class="button" href="?log=' + level + '">' + level + '</a>' }.join(' ') %>
+        <%= RuntimeConfig::LOGGER_SEVERITY.map{ |level| '<a class="button" href="?log=' + level + '">' + level + '</a>' }.join(' ') %>
       </div>
     </div>
     <div class="row">
@@ -57,7 +57,7 @@
         <pre><code><% if @actions && @actions.any? %>
 <%= @actions.join("\n") %>
         <% else %>
-Rails.logger.level: <b><%= RuntimeConfTool::LOGGER_SEVERITY[Rails.logger.level] %></b>
+Rails.logger.level: <b><%= RuntimeConfig::LOGGER_SEVERITY[Rails.logger.level] %></b>
 Rails.application.config.active_record.verbose_query_logs: <b><%= Rails.application.config.active_record.verbose_query_logs %></b>
 Rails.application.config.consider_all_requests_local: <b><%= Rails.application.config.consider_all_requests_local %></b>
 

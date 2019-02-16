@@ -1,17 +1,12 @@
-# Runtime Conf Tool [![Gem Version](https://badge.fury.io/rb/runtime_conf_tool.svg)](https://badge.fury.io/rb/runtime_conf_tool)
+# Runtime Config for Rails [![Gem Version](https://badge.fury.io/rb/runtime_config.svg)](https://badge.fury.io/rb/runtime_config)
 
 A middleware to change configuration parameters at runtime for Rails 5.
 
 ## Installation and Usage
 
-- Add this to your `Gemfile`:
-
-`gem 'runtime_conf_tool', git: 'https://github.com/blocknotes/runtime_conf_tool.git'`
-
-- Add to `config/environments/development.rb` (_path_ option is not mandatory, '/dev' is the default value):
-
-`config.middleware.use RuntimeConfTool::Middleware, path: '/some_path'`
-
+- Add to `Gemfile`: `gem 'runtime_config'`
+- Add to `config/environments/development.rb`: `config.middleware.use RuntimeConfig::Middleware`
+- Optionally specify a path, ex. `config.middleware.use RuntimeConfig::Middleware, path: '/some_path'`
 - Open the path (or the one set in the option): **/dev**
 
 ## Features
