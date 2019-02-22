@@ -45,12 +45,6 @@ module RuntimeConfig
         Rake::Task['dev:cache'].invoke
         @actions.push 'Invoked dev:cache'
       end
-      # if req.params.include? 'assets_logs' # NOTE: not working
-      #   # Rails.configuration.assets.quiet = false
-      #   params_save(@params[:assets_logs], req.params['assets_logs'] == '1')
-      #   @actions.push "assets_logs: #{req.params['assets_logs'] == '1'}"
-      #   restart = true
-      # end
       if req.params.include? 'catch_errors'
         params_save(@params[:catch_errors], req.params['catch_errors'] == '1')
         @actions.push "catch_errors: #{req.params['catch_errors'] == '1'}"

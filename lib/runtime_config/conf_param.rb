@@ -2,7 +2,7 @@
 
 module RuntimeConfig
   class ConfParam
-    attr_reader :exec, :conf, :opt, :parent
+    attr_reader :conf, :exec, :opt, :parent
 
     def initialize(opt, parent, conf, exec = nil)
       @opt = opt

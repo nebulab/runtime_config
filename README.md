@@ -11,6 +11,7 @@ A middleware to change configuration parameters at runtime for Rails 5.
 
 ## Features
 
+- Minimal interface using [milligram.io](https://milligram.io)
 - Change log level
 - Filter log lines using a RegExp
 - Enable/disable catching errors
