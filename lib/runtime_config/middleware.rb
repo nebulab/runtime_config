@@ -103,7 +103,8 @@ module RuntimeConfig
     end
 
     def restart_server
-      FileUtils.touch Rails.root.join('tmp', 'restart.txt').to_s
+      Rails.application.load_tasks
+      Rake::Task['restart'].invoke
     end
   end
 end
