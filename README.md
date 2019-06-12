@@ -24,14 +24,14 @@ A middleware to change configuration parameters at runtime for Rails 5.
 
 ![screenshot](screenshot.png)
 
-## Do you like it? Star it!
-
-If you use this component just star it. A developer is more motivated to improve a project when there is some interest.
-
-## Contributors
-
-- [Mattia Roccoberton](http://blocknot.es) - creator, maintainer
-
 ## License
 
-[MIT](LICENSE.txt)
+This project is copyright © 2019 [Nebulab](http://nebulab.it/). It is free software, and may be redistributed under the terms specified in the [MIT](LICENSE.txt) license.
+
+## About
+
+![Nebulab](http://nebulab.it/assets/images/public/logo.svg)
+
+DRU is funded and maintained by the [Nebulab](http://nebulab.it/) team.
+
+We firmly believe in the power of open-source. [Contact us](http://nebulab.it/contact-us/) if you like our work and you need help with your project design or development.
