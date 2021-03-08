@@ -9,7 +9,6 @@ Gem::Specification.new do |spec|
   spec.summary  = 'A middleware to change configuration parameters at runtime for Rails 5'
 
   spec.required_ruby_version = '>= 2.2.2'
-  spec.add_dependency 'rails', ['>= 5.0', '< 6.0']
 
   spec.files = Dir['README.md', 'lib/**/*']
   spec.require_path = 'lib'
